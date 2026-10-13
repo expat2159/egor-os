@@ -6,7 +6,7 @@
 - `egor-os/dist/index.html` — страница.
 - `egor-os/dist/style.css` — адаптивный киберпанк-дизайн.
 - `egor-os/dist/app.js` — галерея, егорики, шуточная диагностика и режим преподавателя.
-- `egor-os/dist/assets/` — копии всех 14 исходных фотографий. Оригиналы в корне не менять.
+- `egor-os/dist/assets/` — копии всех 14 исходных фотографий и очищенный снимок для боковых баннеров (`egor-side-banner.jpg`). Оригиналы в корне не менять.
 
 - `egor-os/check-spawn.cjs` — браузерная проверка кнопок и галереи: `node check-spawn.cjs` (Chrome и Playwright из локального runtime Codex).
 - `egor-os/.openai/hosting.json` — идентификатор Sites и каталог публикации.
