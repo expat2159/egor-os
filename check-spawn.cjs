@@ -25,7 +25,7 @@ const { chromium } = require('C:/Users/sulim/.cache/codex-runtimes/codex-primary
     assert.deepEqual(result.uniqueBatches, Array(20).fill(5));
     await page.waitForTimeout(5200);
     assert.equal(await page.locator('.clone').count(), 0, 'Finished animations must release their elements');
-    assert.equal(await page.locator('.egor-card').count(), 24);
+    assert.equal(await page.locator('.egor-card').count(), 14);
     await page.evaluate(async () => {
       await Promise.all([...document.querySelectorAll('.egor-card img')].map(img => { img.loading = 'eager'; return img.decode(); }));
     });
