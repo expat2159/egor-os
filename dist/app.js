@@ -16,14 +16,28 @@ photos.forEach(([n,title,tag],i) => {
 document.querySelector('.close').addEventListener('click',()=>viewer.close());
 viewer.addEventListener('click',e=>{if(e.target===viewer){const r=viewer.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)viewer.close()}});
 let count=0;
+let batchSize=5;
 function spawn(){
   const host=document.querySelector('#clones');
-  const amount=5;
+  const amount=batchSize;
   const pool=photos.slice();
-  for(let i=0;i<amount;i++){const [photo]=pool.splice(Math.floor(Math.random()*pool.length),1);const img=document.createElement('img');img.src=path(photo[0]);img.alt='';img.className='clone';img.style.left=`${Math.random()*Math.max(0,window.innerWidth-95)}px`;img.style.animationDelay=`${i*.09}s`;host.append(img);setTimeout(()=>img.remove(),5000)}
+  for(let i=0;i<amount;i++){if(!pool.length)pool.push(...photos);const [photo]=pool.splice(Math.floor(Math.random()*pool.length),1);const img=document.createElement('img');img.src=path(photo[0]);img.alt='';img.className='clone';img.style.left=`${Math.random()*Math.max(0,window.innerWidth-95)}px`;img.style.animationDelay=`${i*.09}s`;host.append(img);setTimeout(()=>img.remove(),5000+i*90)}
   count+=amount;document.querySelector('#count').textContent=count;document.querySelector('#announcement').textContent=`Запущено ${count} егориков. Кластер растёт!`;
 }
 document.querySelector('#spawn').addEventListener('click',spawn);document.querySelector('#spawn-more').addEventListener('click',spawn);
 let contacts=0;document.querySelector('#switch-button').addEventListener('click',()=>{contacts++;document.querySelector('#switch-status').textContent=['Контакт установлен. Коммутатор смущён. Пакеты пошли.','Вкус: гигабитный. Послевкусие: витая пара.','Все 24 порта передают Егору привет.','Диагноз: коммутатор любит Егора в ответ.'][(contacts-1)%4];document.querySelector('#switch-button').firstChild.textContent='КОНТАКТ ЕСТЬ ✓ '});
 let studying=false;const original=document.querySelector('.game-content').innerHTML;
 document.querySelector('#teacher').addEventListener('click',()=>{studying=!studying;document.querySelector('#game-title').textContent=studying?'ACTIVE PROCESS: midnight-commander':'ACTIVE PROCESS: STALKER.exe';document.querySelector('.game-content').innerHTML=studying?'<h3 style="color:#a7ccff">MIDNIGHT COMMANDER</h3><p>┌ /home/egor ────────────────┐<br>│ ..　　　　　　　　　　　│<br>│ lab_01.txt　　　　　　　 │<br>│ definitely_not_stalker　　│<br>└──────────────────────────┘</p><span class="tag">УЧУСЬ. ОЧЕНЬ УСЕРДНО УЧУСЬ.</span>':original;document.querySelector('#teacher').textContent=studying?'✓ ПРЕПОД УШЁЛ':'⚠ ПРЕПОД ИДЁТ!';document.querySelector('#teacher-status').textContent=studying?'Маскировка активна. Alt+Tab спасает жизни.':'Режим: свободный сталкер'});
+
+document.querySelector('#reset-count').addEventListener('click',()=>{
+  count=0;
+  document.querySelector('#count').textContent='0';
+  document.querySelector('#clones').replaceChildren();
+  document.querySelector('#announcement').textContent='Счётчик обнулён. Все егорики вернулись на базу.';
+});
+
+document.querySelector('#increase-egors').addEventListener('click',()=>{
+  batchSize+=5;
+  document.querySelector('#batch-size').textContent=String(batchSize);
+  document.querySelector('#announcement').textContent=`Теперь за нажатие запускается ${batchSize} егориков.`;
+});
